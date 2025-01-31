@@ -42,6 +42,7 @@ const Home = () => {
       setCurrentPage(page);
     }
   };
+  
 
   const handleErrorClose = () => {
     setError(null);
