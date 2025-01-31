@@ -1,0 +1,18 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgb(97, 96, 96);
+}
+
+.main-content {
+  flex-grow: 1;
+  min-height: 75vh;
+}
+
+footer {
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+}
