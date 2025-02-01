@@ -10,21 +10,28 @@ const Leaderboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState(null);
-
-  const fetchUsers = async (page) => {
-    try {
-      const response = await axios.get(`${API_URL}/leaderboard?page=${page}`);
-      setUsers(response.data.users);
-      setCurrentPage(response.data.currentPage);
-      setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      setError("Failed to fetch users. Please try again later.");
-    }
-  };
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchUsers(currentPage);
+    const fetchUsers = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `${API_URL}/leaderboard?page=${currentPage}`
+        );
+        setUsers(response.data.users);
+        setCurrentPage(response.data.currentPage);
+        setTotalPages(response.data.totalPages);
+        setError(null);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        setError("Failed to fetch users. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
   }, [currentPage]);
 
   const handlePageChange = (page) => {
@@ -42,6 +49,7 @@ const Leaderboard = () => {
       <div className="container">
         <div className="row d-flex justify-content-center align-items-center">
           <h2 className="text-center text-white my-4">Leaderboard</h2>
+
           {error && (
             <div
               className="alert alert-danger alert-dismissible fade show text-center"
@@ -56,44 +64,56 @@ const Leaderboard = () => {
               ></button>
             </div>
           )}
-          <div className="col-9">
-            <table className="table table-bordered table-striped mt-3">
-              <thead className="table-dark py-3">
-                <tr className="border">
-                  <th className="text-center py-3 col-3">Rank</th>
-                  <th className="text-center py-3 col-3">Name</th>
-                  <th className="text-center py-3 col-3">Score</th>
-                  <th className="text-center py-3 col-3">Points History</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, index) => (
-                  <tr key={user._id}>
-                    <td className="py-3 text-center col-3">
-                      {index + 1 + (currentPage - 1) * 10}
-                    </td>
-                    <td className="py-3 text-center col-3">
-                      {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
-                    </td>
-                    <td className="py-3 text-center col-3">{user.points}</td>
-                    <td className="text-center">
-                      <Link
-                        to={`/points-history/${encodeURIComponent(user.name)}`}
-                        className="btn btn-outline-primary fw-semibold"
-                      >
-                        View History
-                      </Link>
-                    </td>
+
+          {loading ? (
+            <div className="text-center">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <div className="col-9">
+              <table className="table table-bordered table-striped mt-3">
+                <thead className="table-dark py-3">
+                  <tr className="border">
+                    <th className="text-center py-3 col-3">Rank</th>
+                    <th className="text-center py-3 col-3">Name</th>
+                    <th className="text-center py-3 col-3">Score</th>
+                    <th className="text-center py-3 col-3">Points History</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>
+                </thead>
+                <tbody>
+                  {users.map((user, index) => (
+                    <tr key={user._id}>
+                      <td className="py-3 text-center col-3">
+                        {index + 1 + (currentPage - 1) * 10}
+                      </td>
+                      <td className="py-3 text-center col-3">
+                        {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
+                      </td>
+                      <td className="py-3 text-center col-3">{user.points}</td>
+                      <td className="text-center">
+                        <Link
+                          to={`/points-history/${encodeURIComponent(
+                            user.name
+                          )}`}
+                          className="btn btn-outline-primary fw-semibold"
+                        >
+                          View History
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </>

@@ -42,7 +42,6 @@ const Home = () => {
       setCurrentPage(page);
     }
   };
-  
 
   const handleErrorClose = () => {
     setError(null);
@@ -50,7 +49,7 @@ const Home = () => {
 
   return (
     <div className="container mt-4 p-4">
-      <h2 className="text-center text-dark mb-4">Users</h2>
+      <h2 className="text-center text-white mb-4">Users</h2>
 
       {error && (
         <div
