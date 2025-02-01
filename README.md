@@ -50,17 +50,3 @@ The frontend communicates with the **backend API** hosted on [Vercel](https://ve
 - **Award Points**: `POST /api/v1/leaderboard/award-points`
 - **Points History**: `GET /api/v1/leaderboard/points-history`
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/leaderboard-ui.git
