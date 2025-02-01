@@ -11,12 +11,17 @@ The **Leaderboard UI** is a React-based frontend application that allows users t
 
 The application is built using **ReactJS**, styled with **Bootstrap**, and interacts with a backend API to manage user data and rankings.
 
----
-
 ## 🌐 Live Demo
 
 Check out the live version of the project here:  
 👉 [Leaderboard UI](https://dainty-trifle-c79423.netlify.app/)
+
+---
+
+## 🔗 Repositories
+
+- **Frontend GitHub Repository**: [Leaderboard Client](https://github.com/Sharanumesta/Leaderboard-client)
+- **Backend GitHub Repository**: [Leaderboard Server](https://github.com/Sharanumesta/Leaderboard-server)
 
 ---
 
